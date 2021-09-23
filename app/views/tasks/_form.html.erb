@@ -1,0 +1,45 @@
+<%= form_with(model: @task, local: true ) do |form| %>
+  <% if @task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= @task.errors.count %>Something wrong</h2>
+      <ul>
+      <% @task.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <div class="form">  
+  <div class="task_title form-group">
+    <%= form.label :Task_name %>
+    <%= form.text_field :task_name, id: "task" , class: "form-control"%>
+  </div>
+  
+  <div class="task_title form-group">
+    <%= form.label :Description %>
+    <%= form.text_field :description, class: "form-control" %>
+  </div>
+ 
+  <div class="task_title form-group">
+    <%= form.label :Priotity %>
+    <%= form.select :priority, options_for_select([[''],['high'], ['medium'], ['low']]), id: "priority", class: "form-control"  %>
+  </div>
+   <div class="task_title form-group">
+    <%= form.label :Status %>
+    <%= form.select :status, options_for_select([[''],['unstarted'], ['in progress'], ['completed']]), id: "status", class: "form-control"  %>
+  </div>
+  
+  <div class="task_title form-group">
+    <%= form.label :Deadline %>
+    <%= form.date_select :deadline, id: "deadline", class: "form-control"%>
+  </div>
+
+  <% Label.all.each do |label| %>
+    <%= form.check_box :label_ids, { multiple: true, checked: label[:checked], disabled: label[:disabled], include_hidden: false }, label[:id] %>
+    <%= form.label :label_ids, label.title, value: "#{label.id}" %>
+  <% end %>
+  <%= form.submit value:"Register", class: "btn btn-primary submit"%>
+</div>
+<% end %>
+<br>
+<%= link_to "Back to the task list", tasks_path, class: "badge badge-success" %>
